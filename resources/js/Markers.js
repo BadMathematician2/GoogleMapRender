@@ -1,36 +1,40 @@
 class Markers extends BaseMap {
 
-    constructor(url, center = [40.413679, -3.707442], zoom = 8, type = "terrain", gridSize = 200) {
-        super(url, center, zoom, type);
-        this.markerCluster = new MarkerClusterer(this.map, [], {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-            gridSize: gridSize,
-            averageCenter: false })
+    constructor(url) {
+        super(url);
+        this.markerCluster = null
 
         this.markers = []
     }
 
     renderMarkers() {
+        this.setMarkerCluster()
         google.maps.event.addListener(this.map, 'bounds_changed', (_) => {
-            this.request(this.getOnSuccess())
+            this.request((data) => {
+                let points = JSON.parse(data)
+
+                this.markers.forEach(marker => marker.setMap(null))
+                this.markerCluster.removeMarkers(this.markers)
+                this.markers = []
+
+                points.forEach(point => {
+                    if (this.map.getBounds().contains(point)) {
+                        this.render(point)
+                    }
+                })
+
+                this.markerCluster.addMarkers(this.markers)
+            })
         })
     }
 
-    getOnSuccess() {
-        return (data) => {
-            let points = JSON.parse(data)
-
-            this.markers.forEach(marker => marker.setMap(null))
-            this.markerCluster.removeMarkers(this.markers)
-            this.markers = []
-
-            points.forEach(point => {
-                if (this.map.getBounds().contains(point)) {
-                    this.render(point)
-                }
-            })
-
-            this.markerCluster.addMarkers(this.markers)
+    setMarkerCluster() {
+        if (null === this.markerCluster) {
+            this.setMap()
+            this.markerCluster = new MarkerClusterer(this.map, [], {
+                imagePath: this.getImagePath(),
+                gridSize: 200,
+                averageCenter: false })
         }
     }
 
@@ -51,6 +55,9 @@ class Markers extends BaseMap {
         this.markerCluster.setGridSize(gridSize)
     }
 
+    getImagePath() {
+        return 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    }
 
 
 

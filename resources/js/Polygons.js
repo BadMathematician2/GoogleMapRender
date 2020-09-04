@@ -1,11 +1,18 @@
 class Polygons extends BaseMap {
 
     renderPolygons() {
-        let onSuccess = this.getOnSuccess()
-        this.request(onSuccess)
+        this.setMap()
+        this.request((data) => {
+            let polygons = JSON.parse(data)
+            this.map.setCenter(polygons[0].points[0])
+            polygons.map(polygon => {
+                (polygon.points.length !== 2) ? this.newPolygon(polygon) : this.newRectangle(polygon)
+            })
+        })
     }
 
-    getOnSuccess() {
+    getSuccessRequest() {
+        this.setMap()
         return  (data) => {
            let polygons = JSON.parse(data)
            this.map.setCenter(polygons[0].points[0])

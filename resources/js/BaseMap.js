@@ -1,25 +1,28 @@
 class BaseMap {
 
-    constructor(url, center = [40.413679, -3.707442], zoom = 8, type = "terrain") {
+    constructor(url) {
         this.url = url
-        this.map = new google.maps.Map(document.getElementById("map"), {
-            zoom: zoom,
-            center: {lat: center[0], lng: center[1]},
-            mapTypeId: type
-        })
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            }
-        })
-
+        this.map = null
     }
 
-    request(onSuccess, method = 'POST') {
+    setMap() {
+        if (null === this.map) {
+            this.map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: {lat: 40.413679, lng: -3.707442},
+                mapTypeId: "terrain"
+            })
+        }
+    }
+
+    request(success, data = null, method = 'POST') {
         $.ajax({
             url: this.url,
-            success: onSuccess,
+            success: success,
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
             method: method
         })
     }
