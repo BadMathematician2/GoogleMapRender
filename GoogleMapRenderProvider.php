@@ -12,7 +12,7 @@ class GoogleMapRenderProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/resources/js' => public_path('resources/js'),
-        ], 'public');
+        ], 'render_in_map');
     }
 
 }
