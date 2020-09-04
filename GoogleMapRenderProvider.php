@@ -8,10 +8,10 @@ use Illuminate\Support\ServiceProvider;
 
 class GoogleMapRenderProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
         $this->publishes([
-            __DIR__ . '/resources/js' => public_path('vendor/courier'),
+            __DIR__ . '/resources/js' => public_path('resources/js'),
         ], 'public');
     }
 
