@@ -1,0 +1,25 @@
+{
+    "name": "mykola-map/google-map-render",
+    "description": "Rendering polygons or markers",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mykola",
+            "email": "mathematic204chnu@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "GoogleMapRender\\" : "/"
+        }
+    },
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\GoogleMapRender\\GoogleMapRenderProvider"
+            ]
+        }
+    }
+}
