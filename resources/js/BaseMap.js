@@ -10,6 +10,7 @@ class BaseMap {
     initMap() {
         this.map = new google.maps.Map(document.getElementById("map"), {
             zoom: 8,
+            minZoom: 2,
             center: {lat: 40.413679, lng: -3.707442},
             mapTypeId: "terrain"
         })

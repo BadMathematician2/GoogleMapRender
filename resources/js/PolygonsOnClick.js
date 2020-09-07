@@ -4,7 +4,6 @@ class PolygonsOnClick {
         this.center = center
         this.map = null
         this.markers = []
-        this.points = []
         this.polygon = new google.maps.Polygon(null)
         this.needClean = false
     }
@@ -12,6 +11,7 @@ class PolygonsOnClick {
     initMap() {
         this.map = new google.maps.Map(document.getElementById("map"), {
             zoom: 8,
+            minZoom: 2,
             center: this.center,
             mapTypeId: "terrain"
         })
@@ -23,19 +23,24 @@ class PolygonsOnClick {
         return (null === this.map) ? this.initMap() : this.map
     }
 
+    getPoints() {
+        return this.markers.map(marker => {
+            return marker.position
+        })
+    }
+
     renderMarker(point) {
         let marker = new google.maps.Marker({
             map: this.getMap(),
             position: point
         })
-        this.points.push(point)
         this.markers.push(marker)
     }
 
     renderPolygon() {
         this.polygon.setMap(null)
         this.polygon = new google.maps.Polygon({
-            paths: this.points,
+            paths: this.getPoints(),
             strokeColor: this.color,
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -70,7 +75,6 @@ class PolygonsOnClick {
         })
         this.addListener('rightclick', event => {
             this.newPolygon(event)
-            this.points = []
             this.needClean = true
         })
     }
