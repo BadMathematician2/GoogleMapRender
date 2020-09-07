@@ -13,14 +13,12 @@ class BaseMap {
             center: {lat: 40.413679, lng: -3.707442},
             mapTypeId: "terrain"
         })
+
+        return this.map
     }
 
     getMap() {
-        if (null === this.map) {
-            this.initMap()
-        }
-
-        return this.map
+        return (null === this.map) ? this.initMap() : this.map
     }
 
     request(success, data = null, method = 'POST') {

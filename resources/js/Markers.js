@@ -31,15 +31,12 @@ class Markers extends BaseMap {
             imagePath: this.getImagePath(),
             gridSize: 200,
             averageCenter: false })
+
+        return this.markerCluster
     }
 
     getMarkerCluster() {
-        if (null === this.markerCluster) {
-            this.initMarkerCluster()
-        }
-
-        return this.markerCluster
-
+        return (null === this.markerCluster) ? this.initMarkerCluster() : this.markerCluster
     }
 
     render(point) {

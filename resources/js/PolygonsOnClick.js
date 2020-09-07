@@ -15,21 +15,20 @@ class PolygonsOnClick {
             center: this.center,
             mapTypeId: "terrain"
         })
-    }
-
-    getMap() {
-        if (null === this.map) {
-            this.initMap()
-        }
 
         return this.map
     }
 
-    renderPoint(point) {
+    getMap() {
+        return (null === this.map) ? this.initMap() : this.map
+    }
+
+    renderMarker(point) {
         let marker = new google.maps.Marker({
             map: this.getMap(),
             position: point
         })
+        this.points.push(point)
         this.markers.push(marker)
     }
 
@@ -48,12 +47,7 @@ class PolygonsOnClick {
 
     newPolygon(event) {
         this.cleanMarkers()
-
-        let point = event.latLng
-
-        this.points.push(point)
-        this.renderPoint(point)
-
+        this.renderMarker(event.latLng)
         this.renderPolygon()
     }
 
@@ -66,15 +60,15 @@ class PolygonsOnClick {
         }
     }
 
-    onClick(button, closure) {
+    addListener(button, closure) {
         this.getMap().addListener(button, closure)
     }
 
     render() {
-        this.onClick('click', event => {
+        this.addListener('click', event => {
             this.newPolygon(event)
         })
-        this.onClick('rightclick', event => {
+        this.addListener('rightclick', event => {
             this.newPolygon(event)
             this.points = []
             this.needClean = true
