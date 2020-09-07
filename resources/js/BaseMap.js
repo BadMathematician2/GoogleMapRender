@@ -1,8 +1,10 @@
 class BaseMap {
 
-    constructor(url) {
+    constructor(url, token = $('meta[name="csrf-token"]').attr('content')) {
         this.url = url
+        this.token = token
         this.map = null
+
     }
 
     setMap() {
@@ -21,7 +23,7 @@ class BaseMap {
             success: success,
             data: data,
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-CSRF-TOKEN': this.token,
             },
             method: method
         })

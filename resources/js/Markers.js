@@ -3,7 +3,6 @@ class Markers extends BaseMap {
     constructor(url) {
         super(url);
         this.markerCluster = null
-
         this.markers = []
     }
 
@@ -58,8 +57,5 @@ class Markers extends BaseMap {
     getImagePath() {
         return 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     }
-
-
-
 
 }
