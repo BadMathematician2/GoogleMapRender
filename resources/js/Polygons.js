@@ -2,9 +2,8 @@ class Polygons extends BaseMap {
 
     renderPolygons() {
         this.request((data) => {
-            this.setMap()
             let polygons = JSON.parse(data)
-            this.map.setCenter(polygons[0].points[0])
+            this.getMap().setCenter(polygons[0].points[0])
             polygons.map(polygon => {
                 (polygon.points.length !== 2) ? this.newPolygon(polygon) : this.newRectangle(polygon)
             })
@@ -19,7 +18,7 @@ class Polygons extends BaseMap {
             strokeWeight: 2,
             fillColor: polygon.color,
             fillOpacity: 0.30,
-            map: this.map
+            map: this.getMap()
         })
     }
 
@@ -30,7 +29,7 @@ class Polygons extends BaseMap {
             strokeWeight: 2,
             fillColor: polygon.color,
             fillOpacity: 0.30,
-            map: this.map,
+            map: this.getMap(),
             bounds: {
                 north: polygon.points[1].lat,
                 south: polygon.points[0].lat,

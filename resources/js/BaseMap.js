@@ -7,14 +7,20 @@ class BaseMap {
 
     }
 
-    setMap() {
+    initMap() {
+        this.map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 8,
+            center: {lat: 40.413679, lng: -3.707442},
+            mapTypeId: "terrain"
+        })
+    }
+
+    getMap() {
         if (null === this.map) {
-            this.map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 8,
-                center: {lat: 40.413679, lng: -3.707442},
-                mapTypeId: "terrain"
-            })
+            this.initMap()
         }
+
+        return this.map
     }
 
     request(success, data = null, method = 'POST') {

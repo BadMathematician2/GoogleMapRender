@@ -7,34 +7,39 @@ class Markers extends BaseMap {
     }
 
     renderMarkers() {
-        this.setMarkerCluster()
-        google.maps.event.addListener(this.map, 'bounds_changed', (_) => {
+        google.maps.event.addListener(this.getMap(), 'bounds_changed', (_) => {
             this.request((data) => {
                 let points = JSON.parse(data)
 
                 this.markers.forEach(marker => marker.setMap(null))
-                this.markerCluster.removeMarkers(this.markers)
+                this.getMarkerCluster().removeMarkers(this.markers)
                 this.markers = []
 
                 points.forEach(point => {
-                    if (this.map.getBounds().contains(point)) {
+                    if (this.getMap().getBounds().contains(point)) {
                         this.render(point)
                     }
                 })
 
-                this.markerCluster.addMarkers(this.markers)
+                this.getMarkerCluster().addMarkers(this.markers)
             })
         })
     }
 
-    setMarkerCluster() {
+    initMarkerCluster() {
+        this.markerCluster = new MarkerClusterer(this.getMap(), [], {
+            imagePath: this.getImagePath(),
+            gridSize: 200,
+            averageCenter: false })
+    }
+
+    getMarkerCluster() {
         if (null === this.markerCluster) {
-            this.setMap()
-            this.markerCluster = new MarkerClusterer(this.map, [], {
-                imagePath: this.getImagePath(),
-                gridSize: 200,
-                averageCenter: false })
+            this.initMarkerCluster()
         }
+
+        return this.markerCluster
+
     }
 
     render(point) {
@@ -43,15 +48,11 @@ class Markers extends BaseMap {
             image = point['image']
         }
         let marker = new google.maps.Marker({
-            map: this.map,
+            map: this.getMap(),
             position: {lat: point.lat, lng: point.lng},
             icon: image
         })
         this.markers.push(marker)
-    }
-
-    setGridSize(gridSize) {
-        this.markerCluster.setGridSize(gridSize)
     }
 
     getImagePath() {
