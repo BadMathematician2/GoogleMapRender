@@ -1,4 +1,4 @@
-class Markers extends BaseMap {
+class MarkersWithInfo extends BaseMap {
 
     constructor(url) {
         super(url);
@@ -52,8 +52,6 @@ class Markers extends BaseMap {
         let marker = new google.maps.Marker({
             map: this.getMap(),
             position: point.loc,
-            animation: google.maps.Animation.DROP,
-            draggable: true,
             icon: this.getImage(point)
         })
 
