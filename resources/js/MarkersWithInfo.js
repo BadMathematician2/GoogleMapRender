@@ -52,11 +52,13 @@ class MarkersWithInfo extends BaseMap {
         let marker = new google.maps.Marker({
             map: this.getMap(),
             position: point.loc,
-            icon: this.getImage(point)
+            animation: google.maps.Animation.DROP,
+            draggable: true,
+            icon: this.getIcon(point)
         })
 
         marker.addListener('click', () => {
-            this.getInfoWindow().setContent(this.getContent(point).toString())
+            this.setWindowContent(point)
             this.getInfoWindow().open(this.getMap(), marker);
         })
 
@@ -64,12 +66,12 @@ class MarkersWithInfo extends BaseMap {
         this.getMarkerCluster().addMarker(marker)
     }
 
-    getImage(point) {
-        return (typeof point['image'] !== "undefined") ? point['image'] : ''
+    getIcon(point) {
+        return (typeof point['icon'] !== "undefined") ? point['icon'] : ''
     }
 
-    getContent(point) {
-        return (typeof point['content'] !== "undefined") ? point['content'] : ''
+    getPlaceId(point) {
+        return (typeof point['place_id'] !== "undefined") ? point['place_id'] : ''
     }
 
     getImagePath() {
@@ -97,5 +99,41 @@ class MarkersWithInfo extends BaseMap {
                 this.markers.splice(this.markers.indexOf(marker), 1)
             }
         })
+    }
+
+    setWindowContent(point) {
+        const request = {
+            placeId: this.getPlaceId(point),
+            fields: ["name", "formatted_address", "place_id", "geometry", "photos"]
+        }
+
+        const service = new google.maps.places.PlacesService(this.getMap())
+        service.getDetails(request, (place, status) => {
+            if (this.serviceStatusOk(status)) {
+                this.getInfoWindow().setContent(
+                    this.placeContent(place)
+                )
+            }
+        })
+    }
+
+    serviceStatusOk(status) {
+        return status === google.maps.places.PlacesServiceStatus.OK
+    }
+
+    placeContent(place) {
+        return "<div><strong>" +
+            place.name +
+            "</strong><br>" +
+            "Place ID: " +
+            place.place_id +
+            "<br>" +
+            place.formatted_address +
+            "</div>" +
+            this.getPhoto(place)
+    }
+
+    getPhoto(place) {
+        return (typeof place['photos'] !== "undefined") ? '<img width="300px" height="250px" src=' + place.photos[0].getUrl() + '>' : ''
     }
 }
