@@ -16,7 +16,7 @@ class Markers extends BaseMap {
                 this.markers = []
 
                 points.forEach(point => {
-                    if (this.getMap().getBounds().contains(point)) {
+                    if (this.getMap().getBounds().contains(point.loc)) {
                         this.render(point)
                     }
                 })
@@ -40,16 +40,16 @@ class Markers extends BaseMap {
     }
 
     render(point) {
-        let image = ''
-        if (typeof point['image'] !== "undefined") {
-            image = point['image']
-        }
         let marker = new google.maps.Marker({
             map: this.getMap(),
-            position: {lat: point.lat, lng: point.lng},
-            icon: image
+            position: point.loc,
+            icon: this.getImage(point)
         })
         this.markers.push(marker)
+    }
+
+    getImage(point) {
+        return (typeof point['image'] !== "undefined") ? point['image'] : ''
     }
 
     getImagePath() {
