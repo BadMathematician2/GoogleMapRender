@@ -52,8 +52,6 @@ class MarkersWithInfo extends BaseMap {
         let marker = new google.maps.Marker({
             map: this.getMap(),
             position: point.loc,
-            animation: google.maps.Animation.DROP,
-            draggable: true,
             icon: point.icon
         })
 
