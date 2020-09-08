@@ -54,7 +54,7 @@ class MarkersWithInfo extends BaseMap {
             position: point.loc,
             animation: google.maps.Animation.DROP,
             draggable: true,
-            icon: this.getIcon(point)
+            icon: point.icon
         })
 
         marker.addListener('click', () => {
@@ -64,14 +64,6 @@ class MarkersWithInfo extends BaseMap {
 
         this.markers.push(marker)
         this.getMarkerCluster().addMarker(marker)
-    }
-
-    getIcon(point) {
-        return (typeof point['icon'] !== "undefined") ? point['icon'] : ''
-    }
-
-    getPlaceId(point) {
-        return (typeof point['place_id'] !== "undefined") ? point['place_id'] : ''
     }
 
     getImagePath() {
@@ -103,7 +95,7 @@ class MarkersWithInfo extends BaseMap {
 
     setWindowContent(point) {
         const request = {
-            placeId: this.getPlaceId(point),
+            placeId: point.place_id,
             fields: ["name", "formatted_address", "place_id", "geometry", "photos"]
         }
 
