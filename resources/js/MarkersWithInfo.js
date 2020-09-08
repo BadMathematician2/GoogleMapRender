@@ -99,7 +99,7 @@ class MarkersWithInfo extends BaseMap {
 
         const service = new google.maps.places.PlacesService(this.getMap())
         service.getDetails(request, (place, status) => {
-            if (this.serviceStatusOk(status)) {
+            if (this.isStatusOk(status)) {
                 this.getInfoWindow().setContent(
                     this.placeContent(place)
                 )
@@ -107,7 +107,7 @@ class MarkersWithInfo extends BaseMap {
         })
     }
 
-    serviceStatusOk(status) {
+    isStatusOk(status) {
         return status === google.maps.places.PlacesServiceStatus.OK
     }
 
