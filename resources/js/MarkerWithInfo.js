@@ -1,4 +1,4 @@
-class MarkersWithInfo extends BaseMap {
+class MarkerWithInfo extends BaseMap {
 
     constructor(url) {
         super(url);

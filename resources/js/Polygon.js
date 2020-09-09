@@ -1,4 +1,4 @@
-class Polygons extends BaseMap {
+class Polygon extends BaseMap {
 
     renderPolygons() {
         this.request((data) => {

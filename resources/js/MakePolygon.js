@@ -1,6 +1,6 @@
-class PolygonsOnClick extends BaseMap {
+class MakePolygon extends BaseMap {
 
-    constructor(url, center = {lat: 40.413679, lng: -3.707442}, color = "#FF7777",token = $('meta[name="csrf-token"]').attr('content')) {
+    constructor(url, center = {lat: 40.413679, lng: -3.707442}, color = "#00cdfd",token = $('meta[name="csrf-token"]').attr('content')) {
         super(url, token);
         this.color = color
         this.center = center
@@ -74,7 +74,7 @@ class PolygonsOnClick extends BaseMap {
         })
     }
 
-    createElementUI(id, title, innerHTML, controlDiv) {
+    createElement(id, title, innerHTML, controlDiv) {
         const element = document.createElement("div")
         element.id = id
         element.title = title
@@ -87,10 +87,10 @@ class PolygonsOnClick extends BaseMap {
     buttons() {
         const controlDiv = document.createElement("div")
 
-        const clearPolygonUI = this.createElementUI("clearPolygonUI", "Click to clear polygon in the map", "", controlDiv)
-        const clearPolygonText = this.createElementUI("clearPolygonText", "","Clear Polygon", clearPolygonUI)
-        const sendPolygonUI = this.createElementUI("sendPolygonUI", "Click to send polygon`s coordinates in DB", "", controlDiv)
-        const sendPolygonText = this.createElementUI("sendPolygonText", "", "Send Polygon", sendPolygonUI)
+        const clearPolygonUI = this.createElement("clearPolygonUI", "Click to clear polygon in the map", "", controlDiv)
+        const clearPolygonText = this.createElement("clearPolygonText", "","Clear Polygon", clearPolygonUI)
+        const sendPolygonUI = this.createElement("sendPolygonUI", "Click to send polygon`s coordinates in DB", "", controlDiv)
+        const sendPolygonText = this.createElement("sendPolygonText", "", "Send Polygon", sendPolygonUI)
 
         clearPolygonUI.addEventListener("click", () => {
             this.needClean = true

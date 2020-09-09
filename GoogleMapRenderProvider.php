@@ -6,6 +6,10 @@ namespace GoogleMapRender;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class GoogleMapRenderProvider
+ * @package GoogleMapRender
+ */
 class GoogleMapRenderProvider extends ServiceProvider
 {
     public function boot()
