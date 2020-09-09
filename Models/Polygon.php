@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\GoogleMapRender\Models;
+namespace GoogleMapRender;
 
 use Illuminate\Database\Eloquent\Model;
 
