@@ -13,6 +13,10 @@ class GoogleMapRenderProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/js' => public_path('resources/js'),
         ], 'render_in_map');
+        $this->publishes([
+            __DIR__ . '/resources/css' => public_path('resources/css'),
+        ], 'render_in_map');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
     }
 
 }
